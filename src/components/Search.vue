@@ -10,6 +10,8 @@
 <script>
 import { search } from './TMDB.js';
 
+let controller, signal;
+
 export default {
   name: 'Search',
   data() {
@@ -21,16 +23,22 @@ export default {
 
   methods: {
     updateList() {
-      search('movie', this.searchTerm)
+      if (controller) controller.abort();
+      controller = new AbortController();
+      signal = controller.signal;
+
+      search('movie', this.searchTerm, { signal })
         .then(response => { 
           this.results = response.results;
+        })
+        .catch(err => {
+          if (err.name !== 'AbortError') console.error(err);
         });
     },
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 input {
   padding: 10px;

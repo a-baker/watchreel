@@ -12,6 +12,6 @@ const get = async (path = '', options = {}) => {
     return response.json();
 };
 
-export const search = (type, searchTerm) => {
-    return get(`/search/${encodeURIComponent(type)}?query=${encodeURIComponent(searchTerm)}`);
+export const search = (type, searchTerm = '', options = {}) => {
+    return get(`/search/${encodeURIComponent(type)}?query=${encodeURIComponent(searchTerm)}`, options);
 }
