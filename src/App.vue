@@ -1,20 +1,20 @@
 <template>
-  <div class="container">
-    <Search />
-    <Popular :genres="genres"/>
+  <div>
+    <Header />
+    <main class="container">
+      <router-view :genres="genres"></router-view>
+    </main>
   </div>
 </template>
 
 <script>
-import Search from './components/Search';
-import Popular from './components/Popular';
-import { getGenres } from './components/TMDB';
+import Header from '@/components/Header';
+import { getGenres } from '@/components/TMDB';
 
 export default {
   name: 'App',
   components: {
-    Search,
-    Popular
+    Header,
   },
 
   data() {
@@ -91,5 +91,24 @@ ul {
 .year {
   font-size: 0.9em;
   opacity: 0.7;
+}
+
+.transparent-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.transparent-link:visited {
+  color: inherit;
+}
+
+.block-link::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 </style>

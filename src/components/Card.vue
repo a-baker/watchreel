@@ -1,10 +1,17 @@
 <template>
     <article class="card">
         <div class="card__content">
-            <h3 class="card__title">{{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span></h3>
+            <component :is="heading || 'h3'" class="card__title">
+                <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="heading !== 'h1'">
+                    {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
+                </router-link>
+                <template v-else>
+                    {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
+                </template>
+            </component>
             <p class="card__copy">{{ movie.overview }}</p>
             <ul class="tags">
-                <li v-for="id in movie.genre_ids" :key="id" class="tag">{{ genres[id] }}</li>
+                <li v-for="genre in genreList" :key="genre.id" class="tag">{{ genre.name }}</li>
             </ul>
         </div>
         <img class="card__image" :src="imageUrl('backdrop', 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
@@ -16,10 +23,20 @@ import { imageUrl } from './TMDB';
 
 export default {
     name: 'Card',
-    props: ['movie', 'genres'],
+
+    props: ['movie', 'genres', 'heading'],
+
+    computed: {
+        genreList() {
+            if (this.movie.genres)
+                return this.movie.genres;
+
+            return this.movie.genre_ids.map(id => ({ id, name: this.genres[id] }));
+        },
+    },
 
     methods: {
-        imageUrl
+        imageUrl,
     },
 }
 </script>

@@ -4,7 +4,7 @@
     <ul v-if="results.length" class="search__list">
       <li v-for="result in results" :key="result.id" class="search__item">
         <img class="search__poster" :src="imageUrl('poster', 's', result.poster_path)" :alt="'Poster for movie ' + result.title">
-        <p>{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></p>
+        <p><router-link class="transparent-link block-link" :to="'/movie/' + result.id">{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></router-link></p>
       </li>
     </ul>
   </div>
@@ -55,7 +55,7 @@ export default {
   position: relative;
   display: block;
   max-width: 60rem;
-  margin: 2rem auto 0;
+  flex-grow: 1;
 }
 
 .search__field {
@@ -92,6 +92,7 @@ export default {
   border-radius: 5px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .search__item:hover {

@@ -18,6 +18,8 @@ export const search = (type, searchTerm = '', options = {}) => {
 
 export const getGenres = () => get('/genre/movie/list');
 
+export const getMovie = id => get(`/movie/${id}`);
+
 export const getPopular = (type, options = {}) => get(`/${encodeURIComponent(type)}/popular`, options);
 
 const BASE_IMAGE_URL = 'https://image.tmdb.org/t/p/';
