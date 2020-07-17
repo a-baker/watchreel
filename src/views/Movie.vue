@@ -1,6 +1,6 @@
 <template>
   <div class="movie">
-    <Card v-if="movie.id" :movie="movie" :heading="'h1'" />
+    <Card v-if="movie.id" :movie="movie" :header="true" />
   </div>
 </template>
 

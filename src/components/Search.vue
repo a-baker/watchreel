@@ -1,10 +1,15 @@
 <template>
   <div class="search">
-    <input type="search" class="search__field" placeholder="Search movies..." v-model="searchTerm" @input="updateList">
+    <input
+      type="search"
+      class="search__field"
+      placeholder="Search movies..."
+      v-model="searchTerm"
+    />
     <ul v-if="results.length" class="search__list">
       <li v-for="result in results" :key="result.id" class="search__item">
         <img class="search__poster" :src="imageUrl('poster', 's', result.poster_path)" :alt="'Poster for movie ' + result.title">
-        <p><router-link class="transparent-link block-link" :to="'/movie/' + result.id">{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></router-link></p>
+        <p><router-link class="transparent-link block-link search__link" :to="'/movie/' + result.id">{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></router-link></p>
       </li>
     </ul>
   </div>
@@ -22,6 +27,12 @@ export default {
       searchTerm: '',
       results: [],
     };
+  },
+
+  watch: {
+    searchTerm() {
+      this.updateList();
+    }
   },
 
   methods: {
@@ -72,6 +83,13 @@ export default {
   border-color: var(--color-brand);
 }
 
+.search__field::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    height: 20px;
+    width: 20px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23eaeaea' d='M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z'%3E%3C/path%3E%3C/svg%3E") center / contain;
+}
+
 .search__list {
   position: absolute;
   top: 100%;
@@ -85,6 +103,11 @@ export default {
   box-shadow: 0px 5px 10px -2px #000;
   max-height: calc(100vh - 7rem);
   overflow-y: auto;
+
+}
+
+.search:not(:focus-within) .search__list {
+  display: none;
 }
 
 .search__item {
@@ -95,10 +118,14 @@ export default {
   position: relative;
 }
 
-.search__item:hover {
+.search__item:hover, .search__item:focus-within {
   background-color: var(--color-brand);
   color: var(--color-black);
   cursor: pointer;
+}
+
+.search__link {
+  outline: none;
 }
 
 .search__poster {

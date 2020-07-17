@@ -1,8 +1,9 @@
 <template>
-    <article class="card">
+    <article :class="{ card: true, 'card--link': !header }">
+        <img class="card__image" :src="imageUrl('backdrop', 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
         <div class="card__content">
-            <component :is="heading || 'h3'" class="card__title">
-                <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="heading !== 'h1'">
+            <component :is="header ? 'h1' : 'h3'" class="card__title">
+                <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="!header">
                     {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
                 </router-link>
                 <template v-else>
@@ -14,7 +15,6 @@
                 <li v-for="genre in genreList" :key="genre.id" class="tag">{{ genre.name }}</li>
             </ul>
         </div>
-        <img class="card__image" :src="imageUrl('backdrop', 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
     </article>
 </template>
 
@@ -24,7 +24,7 @@ import { imageUrl } from './TMDB';
 export default {
     name: 'Card',
 
-    props: ['movie', 'genres', 'heading'],
+    props: ['movie', 'genres', 'header'],
 
     computed: {
         genreList() {
@@ -51,14 +51,34 @@ export default {
         padding: 2rem;
     }
 
+    .card--link {
+        transition: 0.2s ease-in-out;
+        transition-property: box-shadow transform;
+
+        --box-shadow-offset: 0;
+        box-shadow: 0 0 0 var(--box-shadow-offset) var(--color-brand);
+    }
+
+    .card--link:hover {
+        cursor: pointer;
+    }
+
+    .card--link:hover,
+    .card--link:focus-within {
+        --box-shadow-offset: 2px;
+    }
+
+    /* 
+        gets the content to display over the image without setting position relative
+        so the full block link can be relative to the whole card
+     */
+    .card__content {
+        opacity: 0.9999;
+    }
+
     .card__title {
         margin-bottom: 1rem;
         font-size: 2rem;
-    }
-
-    .card__content {
-        position: relative;
-        z-index: 1;
     }
 
     .card__image {
@@ -68,6 +88,7 @@ export default {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        object-position: top;
         opacity: 0.1;
     }
 
