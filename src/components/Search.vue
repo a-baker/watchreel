@@ -1,16 +1,17 @@
 <template>
   <div class="search">
-    <input type="search" class="search__field" v-model="searchTerm" @input="updateList">
+    <input type="search" class="search__field" placeholder="Search movies..." v-model="searchTerm" @input="updateList">
     <ul v-if="results.length" class="search__list">
       <li v-for="result in results" :key="result.id" class="search__item">
-        {{ result.title }}
+        <img class="search__poster" :src="imageUrl('poster', 's', result.poster_path)" :alt="'Poster for movie ' + result.title">
+        <p>{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></p>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import { search } from './TMDB.js';
+import { search, imageUrl } from './TMDB.js';
 
 let controller, signal;
 
@@ -24,8 +25,16 @@ export default {
   },
 
   methods: {
+    imageUrl,
+
     updateList() {
       if (controller) controller.abort();
+
+      if (!this.searchTerm) {
+        this.results = [];
+        return;
+      }
+
       controller = new AbortController();
       signal = controller.signal;
 
@@ -44,36 +53,57 @@ export default {
 <style scoped>
 .search {
   position: relative;
-  display: inline-block;
-  width: 30rem;
+  display: block;
+  max-width: 60rem;
+  margin: 2rem auto 0;
 }
 
 .search__field {
   width: 100%;
   padding: 1rem;
   border-radius: 3px;
-  border: 2px solid #dadada;
+  background-color: transparent;
+  border: 2px solid var(--color-light-grey);
+  color: var(--color-white);
+}
+
+.search__field:focus {
+  outline: none;
+  border-color: var(--color-brand);
 }
 
 .search__list {
   position: absolute;
   top: 100%;
+  margin-top: 0.5rem;
   left: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+  width: 100%;
   text-align: left;
+  background-color: var(--color-dark-grey);
+  padding: 1rem;
+  z-index: 3;
+  box-shadow: 0px 5px 10px -2px #000;
+  max-height: calc(100vh - 7rem);
+  overflow-y: auto;
 }
 
 .search__item {
   padding: 1rem;
-  background-color: #00084c;
-  color: #fff;
-  border: 1px solid #040e6e;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
 }
 
 .search__item:hover {
-  background-color: #040e6e;
+  background-color: var(--color-brand);
+  color: var(--color-black);
   cursor: pointer;
+}
+
+.search__poster {
+  width: 4rem;
+  height: 6rem;
+  overflow: hidden;
+  margin-right: 1rem;
 }
 </style>
