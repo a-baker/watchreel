@@ -15,3 +15,5 @@ const get = async (path = '', options = {}) => {
 export const search = (type, searchTerm = '', options = {}) => {
     return get(`/search/${encodeURIComponent(type)}?query=${encodeURIComponent(searchTerm)}`, options);
 }
+
+export const getPopular = (type, options = {}) => get(`/${encodeURIComponent(type)}/popular`, options);

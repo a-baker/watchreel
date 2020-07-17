@@ -1,16 +1,19 @@
 <template>
   <div id="app">
     <Search />
+    <Popular />
   </div>
 </template>
 
 <script>
-import Search from './components/Search.vue'
+import Search from './components/Search';
+import Popular from './components/Popular';
 
 export default {
   name: 'App',
   components: {
-    Search
+    Search,
+    Popular
   }
 }
 </script>
