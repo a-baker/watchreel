@@ -26,6 +26,7 @@ export default {
     }
 
     .name {
+        margin-right: 1.5rem;
         font-size: 2.6rem;
         font-weight: 600;
         color: var(--color-brand);
