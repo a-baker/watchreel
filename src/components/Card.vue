@@ -1,5 +1,5 @@
 <template>
-    <article :class="{ card: true, 'card--link': !header }">
+    <article :class="{ card: true, 'card--link': !header, 'card--header': !!header }">
         <img class="card__image" :src="imageUrl('backdrop', header ? 'l' : 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
         <div class="card__content">
             <component :is="header ? 'h1' : 'h3'" class="card__title">
@@ -114,5 +114,30 @@ export default {
         margin-bottom: 0.8rem;
         line-height: 0.7;
         font-size: 1.4rem;
+    }
+
+    /* Header card */
+    .card.card--header {
+        padding-top: 20rem;
+    }
+
+    .card--header .card__image {
+        opacity: 0.9;
+    }
+
+    .card--header .card__content::before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: -2rem;
+        right: -2rem;
+        bottom: -2rem;
+        top: -20rem;
+        background: linear-gradient(transparent, rgba(28, 31, 34, 0.7) 18rem);
+        z-index: -1;
+    }
+
+    .card--header .card__content {
+        position: relative;
     }
 </style>

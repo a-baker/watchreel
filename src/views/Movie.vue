@@ -49,8 +49,4 @@ export default {
   .movie {
     margin-top: 3rem;  
   }
-
-  .card {
-    padding-top: 20rem;
-  }
 </style>
