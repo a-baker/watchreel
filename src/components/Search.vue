@@ -65,7 +65,7 @@ export default {
 .search {
   position: relative;
   display: block;
-  max-width: 60rem;
+  max-width: 50rem;
   flex-grow: 1;
 }
 
@@ -93,17 +93,17 @@ export default {
 .search__list {
   position: absolute;
   top: 100%;
-  margin-top: 0.5rem;
-  left: 0;
-  width: 100%;
+  margin-top: 1rem;
+  right: 0;
+  width: calc(100vw - 3rem);
   text-align: left;
   background-color: var(--color-dark-grey);
   padding: 1rem;
   z-index: 3;
   box-shadow: 0px 5px 10px -2px #000;
-  max-height: calc(100vh - 7rem);
+  max-height: calc(100vh - 10rem);
   overflow-y: auto;
-
+  border-radius: 5px;
 }
 
 .search:not(:focus-within) .search__list {
@@ -133,5 +133,11 @@ export default {
   height: 6rem;
   overflow: hidden;
   margin-right: 1rem;
+}
+
+@media all and (min-width: 48em) {
+  .search__list {
+    width: 100%;
+  }
 }
 </style>
