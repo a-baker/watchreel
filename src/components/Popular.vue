@@ -5,7 +5,6 @@
     </section>
 </template>
 <script>
-import { getPopular } from './TMDB';
 import Card from './Card';
 
 export default {
@@ -17,21 +16,16 @@ export default {
 
     props: ['genres'],
 
-    data() {
-        return {
-            movies: [],
-        };
-    },
-
-    methods: {
-        updateData() {
-            getPopular('movie')
-                .then(response => { this.movies = response.results })
+    computed: {
+        movies() {
+            return this.$store.getters.getPopular;
         },
     },
 
     created() {
-        this.updateData();
+        if (!this.movies.length) {
+            this.$store.dispatch('getPopularMovies');
+        }
     },
 }
 </script>

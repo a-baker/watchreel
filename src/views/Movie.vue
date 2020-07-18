@@ -1,11 +1,11 @@
 <template>
   <div class="movie">
-    <Card v-if="movie.id" :movie="movie" :header="true" />
+    <Card v-if="movie" :movie="movie" :header="true" />
   </div>
 </template>
 
 <script>
-import { getMovie } from '@/components/TMDB';
+import types from '@/store/mutation-types';
 import Card from '@/components/Card';
 
 export default {
@@ -16,18 +16,17 @@ export default {
     Card,
   },
 
-  data() {
-    return {
-      movie: {},
-    };
+  computed: {
+    movie() {
+      return this.$store.getters.getActiveMovie;
+    }
   },
 
   methods: {
     setMovie() {
-      getMovie(this.id)
-        .then(response => {
-          this.movie = response;
-        });
+      const { id } = this;
+      this.$store.dispatch('getMovieDetails', { id });
+      this.$store.commit(types.SET_ACTIVE_MOVIE, { id });
     },
   },
 
