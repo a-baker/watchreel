@@ -29,7 +29,7 @@ export default new Vuex.Store({
       return getById(movies, activeMovieId);
     },
 
-    getPopular({ movies }) {
+    getPopularMovies({ movies }) {
       return movies.filter(movie => Boolean(movie.popular));
     },
   },
@@ -64,8 +64,24 @@ export default new Vuex.Store({
       const movie = getters.getMovie(id);
       if (movie && movie.detailsFetched) return;
 
-      getMovie(id)
+      getMovie(id, ['similar'])
         .then(response => {
+          const movie = response;
+          const similar = response.similar && response.similar.results || [];
+
+          movie.similar = similar;
+          if (similar.length) {
+            similar.forEach(similarMovie => {
+              commit(
+                types.UPDATE_MOVIE_DATA,
+                {
+                  id: similarMovie.id,
+                  data: similarMovie,
+                }
+              );
+            });
+          }
+
           commit(
             types.UPDATE_MOVIE_DATA, 
             {

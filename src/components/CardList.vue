@@ -1,37 +1,25 @@
 <template>
-    <section class="popular">
-        <h2>Popular Movies</h2>
-        <Card v-for="movie in movies" :movie="movie" :key="movie.id" :genres="genres"/>
+    <section class="card-list">
+        <h2>{{ title }}</h2>
+        <Card v-for="movie in movies" :movie="movie" :key="movie.id" />
     </section>
 </template>
 <script>
 import Card from './Card';
 
 export default {
-    name: 'Popular',
+    name: 'CardList',
 
     components: {
         Card
     },
 
-    props: ['genres'],
-
-    computed: {
-        movies() {
-            return this.$store.getters.getPopular;
-        },
-    },
-
-    created() {
-        if (!this.movies.length) {
-            this.$store.dispatch('getPopularMovies');
-        }
-    },
+    props: ['movies', 'title'],
 }
 </script>
 
 <style scoped>
-    .popular {
+    .card-list {
         padding: 3rem 0;
         display: grid;
         gap: 1rem;
@@ -44,13 +32,13 @@ export default {
     }
 
     @media all and (min-width: 48em) and (max-width: 59.9375em) {
-        .popular {
+        .card-list {
             grid-template-columns: repeat(2, 1fr);
         }
     }
 
     @media all and (min-width: 60em) {
-        .popular {
+        .card-list {
             grid-template-columns: repeat(3, 1fr);
         }
     }

@@ -1,12 +1,14 @@
 <template>
   <div class="movie">
     <Card v-if="movie" :movie="movie" :header="true" />
+    <CardList v-if="movie && movie.similar" :movies="movie.similar" :title="'Similar to ' + movie.title" />
   </div>
 </template>
 
 <script>
 import types from '@/store/mutation-types';
 import Card from '@/components/Card';
+import CardList from '@/components/CardList';
 
 export default {
   name: 'Movie',
@@ -14,6 +16,7 @@ export default {
 
   components: {
     Card,
+    CardList,
   },
 
   computed: {

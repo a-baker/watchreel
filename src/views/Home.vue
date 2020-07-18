@@ -1,16 +1,16 @@
 <template>
   <div class="home">
-    <Popular />
+    <CardList :movies="$store.getters.getPopularMovies" :title="'Popular Movies'"/>
   </div>
 </template>
 
 <script>
-import Popular from '@/components/Popular';
+import CardList from '@/components/CardList';
 
 export default {
   name: 'Home',
   components: {
-    Popular,
+    CardList,
   },
 };
 </script>

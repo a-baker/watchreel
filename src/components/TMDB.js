@@ -18,7 +18,7 @@ export const search = (type, searchTerm = '', options = {}) => {
 
 export const getGenres = () => get('/genre/movie/list');
 
-export const getMovie = id => get(`/movie/${id}`);
+export const getMovie = (id, append = []) => get(`/movie/${id}?append_to_response=${append.join(',')}`);
 
 export const getPopular = (type, options = {}) => get(`/${encodeURIComponent(type)}/popular`, options);
 
