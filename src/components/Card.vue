@@ -12,7 +12,7 @@
             </component>
             <p class="card__copy">{{ movie.overview }}</p>
             <ul class="tags">
-                <li v-for="genre in genreList" :key="genre.id" class="tag">{{ genre.name }}</li>
+                <li v-for="genre in genres" :key="genre.id" class="tag">{{ genre.name }}</li>
             </ul>
         </div>
     </article>
@@ -24,14 +24,14 @@ import { imageUrl } from './TMDB';
 export default {
     name: 'Card',
 
-    props: ['movie', 'genres', 'header'],
+    props: ['movie', 'header'],
 
     computed: {
-        genreList() {
+        genres() {
             if (this.movie.genres)
                 return this.movie.genres;
 
-            return this.movie.genre_ids.map(id => ({ id, name: this.genres[id] }));
+            return this.movie.genre_ids.map(id => this.$store.getters.getGenre(id));
         },
     },
 

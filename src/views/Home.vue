@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <Popular :genres="genres"/>
+    <Popular />
   </div>
 </template>
 
@@ -9,7 +9,6 @@ import Popular from '@/components/Popular';
 
 export default {
   name: 'Home',
-  props: ['genres'],
   components: {
     Popular,
   },

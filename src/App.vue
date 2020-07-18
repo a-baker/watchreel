@@ -2,14 +2,13 @@
   <div>
     <Header />
     <main class="container">
-      <router-view :genres="genres"></router-view>
+      <router-view></router-view>
     </main>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header';
-import { getGenres } from '@/components/TMDB';
 
 export default {
   name: 'App',
@@ -17,20 +16,8 @@ export default {
     Header,
   },
 
-  data() {
-    return {
-      genres: {},
-    }
-  },
-
-  mounted() {
-    getGenres()
-      .then(response => {
-        this.genres = response.genres.reduce((map, genre) => {
-          map[genre.id] = genre.name;
-          return map;
-        }, {});
-      });
+  created() {
+    this.$store.dispatch('getGenres');
   },
 }
 </script>

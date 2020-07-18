@@ -10,7 +10,7 @@ import Card from '@/components/Card';
 
 export default {
   name: 'Movie',
-  props: ['id', 'genres'],
+  props: ['id'],
 
   components: {
     Card,
