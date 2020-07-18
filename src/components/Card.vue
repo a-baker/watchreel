@@ -1,6 +1,6 @@
 <template>
     <article :class="{ card: true, 'card--link': !header }">
-        <img class="card__image" :src="imageUrl('backdrop', 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
+        <img class="card__image" :src="imageUrl('backdrop', header ? 'l' : 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
         <div class="card__content">
             <component :is="header ? 'h1' : 'h3'" class="card__title">
                 <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="!header">
@@ -9,6 +9,7 @@
                 <template v-else>
                     {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
                 </template>
+                <span v-if="movie.popular && header" class="card__popular">🔥</span>
             </component>
             <p class="card__copy">{{ movie.overview }}</p>
             <ul class="tags">
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { imageUrl } from './TMDB';
+import { imageUrl } from '@/components/TMDB';
 
 export default {
     name: 'Card',
@@ -90,6 +91,12 @@ export default {
         object-fit: cover;
         object-position: top;
         opacity: 0.1;
+    }
+
+    .card__popular {
+        font-size: 0.7em;
+        vertical-align: 0.1em;
+        margin-left: 0.3rem;
     }
 
     .tags {

@@ -18,6 +18,7 @@ export default {
 
   created() {
     this.$store.dispatch('getGenres');
+    this.$store.dispatch('getPopularMovies');
   },
 }
 </script>
