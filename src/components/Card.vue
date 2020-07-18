@@ -50,6 +50,7 @@ export default {
         box-shadow: 0px 5px 3px -1px #000;
         background-color: var(--color-dark-grey);
         padding: 2rem;
+        overflow: hidden;
     }
 
     .card--link {
