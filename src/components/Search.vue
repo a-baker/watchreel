@@ -11,7 +11,7 @@
     <ul v-if="results.length && open" class="search__list">
       <li v-for="result in results" :key="result.id" class="search__item">
         <img class="search__poster" :src="imageUrl('poster', 's', result.poster_path)" :alt="'Poster for movie ' + result.title">
-        <p><router-link class="transparent-link block-link search__link" :to="'/movie/' + result.id" @click.native="open = false">{{ result.title }} <span class="year">({{ result.release_date.split('-')[0] }})</span></router-link></p>
+        <p><router-link class="transparent-link block-link search__link" :to="'/movie/' + result.id" @click.native="open = false">{{ result.title }} <span v-if="result.release_date" class="year">({{ result.release_date.split('-')[0] }})</span></router-link></p>
       </li>
     </ul>
   </div>

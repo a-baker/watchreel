@@ -39,6 +39,10 @@ const sizePointer = {
 };
 
 export const imageUrl = (type, size = 'original', path) => {
+    if (!path) {
+        // grey pixel
+        return 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQYV2O4devWfwAIrgOO0ZEgnQAAAABJRU5ErkJggg==';
+    }
     let sizeName = size;
     if (size !== 'original') sizeName = sizes[type][sizePointer[size]];
     return `${BASE_IMAGE_URL}/${sizeName}${path}`;

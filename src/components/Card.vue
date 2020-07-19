@@ -4,12 +4,13 @@
         <div class="card__content">
             <component :is="header ? 'h1' : 'h3'" class="card__title">
                 <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="!header">
-                    {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
+                    {{ movie.title }} <span v-if="movie.release_date" class="year">({{ movie.release_date.split('-')[0] }})</span>
                 </router-link>
                 <template v-else>
-                    {{ movie.title }} <span class="year">({{ movie.release_date.split('-')[0] }})</span>
+                    {{ movie.title }} <span v-if="movie.release_date" class="year">({{ movie.release_date.split('-')[0] }})</span>
                 </template>
                 <span v-if="movie.popular && header" class="card__popular">🔥</span>
+                <span v-if="header" class="stars" :style="`--rating: ${stars};`" :aria-label="`Rating of this movie is ${stars} out of 5.`"></span>
             </component>
             <p class="card__copy">{{ movie.overview }}</p>
             <ul class="tags">
@@ -33,6 +34,10 @@ export default {
                 return this.movie.genres;
 
             return this.movie.genre_ids.map(id => this.$store.getters.getGenre(id));
+        },
+
+        stars() {
+            return this.movie.vote_average / 2;
         },
     },
 
@@ -140,5 +145,27 @@ export default {
 
     .card--header .card__content {
         position: relative;
+    }
+
+    .stars {
+        --star-color: var(--color-brand);
+        --percent: calc(var(--rating) / 5 * 100%);
+
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: 0.8rem;
+        font-size: 0.64em;
+        font-family: Times;
+        line-height: 1;
+    }
+    
+    .stars::before {
+        content: '★★★★★';
+        letter-spacing: 0.3rem;
+        background: linear-gradient(to right, var(--star-color) var(--percent), transparent var(--percent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        -webkit-text-stroke: 1px var(--star-color);
     }
 </style>
