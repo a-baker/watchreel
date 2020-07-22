@@ -158,7 +158,7 @@ export default {
         font-family: Times;
         line-height: 1;
     }
-    
+
     .stars::before {
         content: '★★★★★';
         letter-spacing: 0.3rem;

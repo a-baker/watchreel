@@ -1,7 +1,10 @@
 <template>
   <div class="movie">
     <Card v-if="movie" :movie="movie" :header="true" />
-    <CardList v-if="movie && movie.similar" :movies="movie.similar" :title="'Similar to ' + movie.title" />
+    <button type="button" @click="toggleOnWatchList">
+      {{ onWatchList ? 'Remove from' : 'Add to' }} watch list
+    </button>
+    <CardList v-if="movie && movie.similar && movie.similar.length" :movies="movie.similar" :title="'Similar to ' + movie.title" />
   </div>
 </template>
 
@@ -22,7 +25,11 @@ export default {
   computed: {
     movie() {
       return this.$store.getters.getActiveMovie;
-    }
+    },
+
+    onWatchList() {
+      return this.movie && this.$store.state.watchList.includes(this.movie.id);
+    },
   },
 
   methods: {
@@ -31,6 +38,10 @@ export default {
       this.$store.dispatch('getMovieDetails', { id });
       this.$store.commit(types.SET_ACTIVE_MOVIE, { id });
     },
+
+    toggleOnWatchList() {
+      this.$store.dispatch('toggleOnWatchList', { id: this.movie.id });
+    }
   },
 
   created() {
