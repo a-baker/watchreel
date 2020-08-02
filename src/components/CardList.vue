@@ -1,6 +1,6 @@
 <template>
     <section class="card-list">
-        <h2>{{ title }}</h2>
+        <component :is="headingLevel" class="card-list__title">{{ title }}</component>
         <Card v-for="movie in movies" :movie="movie" :key="movie.id" />
     </section>
 </template>
@@ -14,7 +14,14 @@ export default {
         Card
     },
 
-    props: ['movies', 'title'],
+    props: {
+        headingLevel: {
+            type: String,
+            default: 'h2',
+        },
+        movies: Array,
+        title: String,
+    },
 }
 </script>
 
@@ -25,7 +32,7 @@ export default {
         gap: 1rem;
     }
 
-    h2 {
+    .card-list__title {
         grid-column: 1 / -1;
         font-size: 3rem;
         margin: 1rem 0;
