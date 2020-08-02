@@ -20,6 +20,11 @@ const routes = [
     props: true,
   },
   {
+    path: '/watchlist',
+    name: 'Watch List',
+    component: () => import(/* webpackChunkName: "watchlist" */ '../views/WatchList.vue'),
+  },
+  {
     path: '/*',
     redirect: '/',
   },

@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VuexPersistence from 'vuex-persist';
+
 import types from './mutation-types';
 
 import { getGenres, getMovie, getPopular } from '@/components/TMDB';
@@ -10,12 +12,21 @@ function getById(arr, id) {
   return arr.filter(item => item.id.toString() === id.toString())[0];
 }
 
+// persist watchList with localStorage
+const vuexLocal = new VuexPersistence({
+  key: 'state',
+  storage: window.localStorage,
+  reducer: state => ({ watchList: state.watchList }),
+});
+
 export default new Vuex.Store({
   state: {
     genres: [],
     movies: [],
+    watchList: [],
     activeMovieId: '',
   },
+
   getters: {
     getGenre: ({ genres }) => id => {
       return getById(genres, id);
@@ -32,7 +43,12 @@ export default new Vuex.Store({
     getPopularMovies({ movies }) {
       return movies.filter(movie => Boolean(movie.popular));
     },
+
+    getWatchList({ movies, watchList }) {
+      return movies.filter(movie => watchList.includes(movie.id));
+    },
   },
+
   mutations: {
     [types.SET_GENRES](state, { genres }) {
       state.genres = genres;
@@ -48,9 +64,17 @@ export default new Vuex.Store({
         Object.assign(movie, data);
       }
       else {
-        state.movies.push(data);
+        state.movies.push(Object.assign({ id }, data));
       }
     },
+
+    [types.ADD_TO_WATCHLIST](state, { id }) {
+      state.watchList.push(id);
+    },
+
+    [types.REMOVE_FROM_WATCHLIST](state, { id }) {
+      state.watchList.splice(state.watchList.indexOf(id), 1);
+    }
   },
   actions: {
     getGenres({ commit }) {
@@ -106,7 +130,18 @@ export default new Vuex.Store({
           });
         });
     },
+
+    toggleOnWatchList({ commit, state }, { id }) {
+      const addingToList = !(state.watchList.includes(id));
+
+      if (addingToList) {
+        commit(types.ADD_TO_WATCHLIST, { id });
+      }
+      else {
+        commit(types.REMOVE_FROM_WATCHLIST, { id })
+      }
+    },
   },
-  modules: {
-  },
+
+  plugins: [vuexLocal.plugin],
 });

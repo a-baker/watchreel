@@ -68,8 +68,6 @@ export default {
 .search {
   position: relative;
   display: block;
-  max-width: 50rem;
-  flex-grow: 1;
 }
 
 .search__field {
