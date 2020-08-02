@@ -38,7 +38,7 @@ export default {
         margin: 1rem 0;
     }
 
-    @media all and (min-width: 48em) and (max-width: 59.9375em) {
+    @media all and (min-width: 48em) and (max-width: 59.95em) {
         .card-list {
             grid-template-columns: repeat(2, 1fr);
         }
