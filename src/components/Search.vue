@@ -109,6 +109,19 @@ export default {
   border-radius: 5px;
 }
 
+.search__list::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+.search__list::-webkit-scrollbar-thumb {
+  background-color: transparent;
+  border-radius: 1rem;
+}
+
+.search__list:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(234, 234, 234, 60%);
+}
+
 .search:not(:focus-within) .search__list {
   display: none;
 }
