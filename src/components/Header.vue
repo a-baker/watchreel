@@ -4,7 +4,11 @@
         <nav class="header__nav">
           <router-link class="transparent-link name" to="/">watchreel</router-link>
           <div class="header__nav__sub">
-              <router-link class="transparent-link" to="/watchlist">Watch List</router-link>
+                <router-link class="transparent-link" to="/watchlist">
+                    Watch List
+                    <span class="watchlist-count" v-if="$store.state.watchList.length < 99">{{ $store.state.watchList.length }}</span>
+                    <span class="watchlist-emoji" v-else>😎</span>
+                </router-link>
           </div>
         </nav>
         <Search />
@@ -64,9 +68,29 @@ export default {
         color: var(--color-brand);
     }
 
+    .watchlist-count {
+        width: 2rem;
+        height: 2rem;
+        font-size: 1.4rem;
+        margin-left: 0.2rem;
+        display: inline-block;
+        vertical-align: 0.2rem;
+        text-align: center;
+        border-radius: 50%;
+        background-color: var(--color-brand);
+        color: var(--color-black);
+    }
+
+    .watchlist-emoji {
+        font-size: 2.2rem;
+        vertical-align: -0.3rem;
+        margin-top: 0.3rem;
+        display: inline-block;
+    }
+
     @media all and (min-width: 37.5em) {
         .header__nav {
-            margin: 0 1.5rem 0;
+            margin: 0 1.5rem 0 0;
             width: auto;
             flex-grow: 1;
         }
