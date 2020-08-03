@@ -1,5 +1,5 @@
 <template>
-    <header class="header">
+    <header :class="{ 'header': true, 'header--sticky': sticky }">
       <div class="container">
         <nav class="header__nav">
           <router-link class="transparent-link name" to="/">watchreel</router-link>
@@ -23,13 +23,45 @@ export default {
     name: 'Header',
     components: {
         Search,
-    }
+    },
+    data() {
+        return {
+            scrollTop: document.scrollingElement.scrollTop,
+            sticky: false,
+        }
+    },
+    methods: {
+        handleScroll() {
+            let newScrollTop = document.scrollingElement.scrollTop;
+            this.sticky = newScrollTop < this.scrollTop && newScrollTop > 0;
+            this.scrollTop = newScrollTop;
+        },
+    },
+    created() {
+        window.addEventListener('scroll', this.handleScroll);
+    },
 }
 </script>
 
 <style scoped>
     .header {
         padding: 2.5rem 0;
+        backface-visibility: hidden;
+    }
+
+    .header--sticky {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        background-color: rgba(9, 10, 11 , 0.8);
+        animation: dropIn 0.25s ease-out;
+    }
+
+    @keyframes dropIn {
+        from {
+            transform: translateY(-100%);
+            opacity: 0.5;
+        }
     }
 
     .container {
