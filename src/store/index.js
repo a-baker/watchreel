@@ -88,7 +88,7 @@ export default new Vuex.Store({
       const movie = getters.getMovie(id);
       if (movie && movie.detailsFetched) return;
 
-      getMovie(id, ['similar'])
+      getMovie(id, ['similar', 'credits'])
         .then(response => {
           const movie = response;
           const similar = response.similar && response.similar.results || [];
