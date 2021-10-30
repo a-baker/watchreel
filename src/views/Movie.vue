@@ -4,6 +4,7 @@
     <button type="button" @click="toggleOnWatchList" :class="{ 'add-button': true, 'add-button--added': onWatchList }">
       <span class="visually-hidden">{{ onWatchList ? 'Remove from' : 'Add to' }} watch list</span>
     </button>
+    <CastList v-if="movie && movie.credits && movie.credits.cast && movie.credits.cast.length" :cast="movie.credits.cast" />
     <CardList v-if="movie && movie.similar && movie.similar.length" :movies="movie.similar" :title="'Similar to ' + movie.title" />
   </div>
 </template>
@@ -12,6 +13,7 @@
 import types from '@/store/mutation-types';
 import Card from '@/components/Card';
 import CardList from '@/components/CardList';
+import CastList from '@/components/CastList';
 
 export default {
   name: 'Movie',
@@ -20,6 +22,7 @@ export default {
   components: {
     Card,
     CardList,
+    CastList,
   },
 
   computed: {
