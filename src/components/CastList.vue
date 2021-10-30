@@ -33,7 +33,7 @@ export default {
 
 <style scoped>
     section {
-        padding: 3rem 0 1rem;
+        padding: 3rem 0 0;
     }
 
     .cast-list__title {
@@ -46,6 +46,20 @@ export default {
         display: flex;
         gap: 0 1rem;
         overflow-x: auto;
+        padding-bottom: 1rem;
+    }
+
+    ul::-webkit-scrollbar {
+        height: 0.8rem;
+    }
+
+    ul::-webkit-scrollbar-thumb {
+        background-color: transparent;
+        border-radius: 1rem;
+    }
+
+    ul:hover::-webkit-scrollbar-thumb {
+        background-color: rgba(234, 234, 234, 60%);
     }
 
     li {
