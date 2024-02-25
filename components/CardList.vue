@@ -1,29 +1,20 @@
-<template>
-    <section class="card-list">
-        <component :is="headingLevel" class="card-list__title">{{ title }}</component>
-        <Card v-for="movie in movies" :movie="movie" :key="movie.id" />
-    </section>
-</template>
-<script>
-import Card from './Card';
-
-export default {
-    name: 'CardList',
-
-    components: {
-        Card
-    },
-
-    props: {
+<script setup lang="ts">
+    defineProps({
         headingLevel: {
             type: String,
             default: 'h2',
         },
         movies: Array,
         title: String,
-    },
-}
+    });
 </script>
+
+<template>
+    <section class="card-list">
+        <component :is="headingLevel" class="card-list__title">{{ title }}</component>
+        <Card v-for="movie in movies" :movie="movie" :key="movie.id" />
+    </section>
+</template>
 
 <style scoped>
     .card-list {

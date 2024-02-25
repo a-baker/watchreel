@@ -1,47 +1,43 @@
+<script setup lang="ts">
+    const moviesStore = useMoviesStore();
+    const scrollTop = ref(0);
+    const sticky = ref(false);
+
+    const handleScroll = () => {
+        let newScrollTop = document.scrollingElement.scrollTop;
+        sticky.value = newScrollTop < scrollTop.value && newScrollTop > 0;
+        scrollTop.value = newScrollTop;
+    };
+
+    onMounted(() => {
+        scrollTop.value = document.scrollingElement.scrollTop;
+        window.addEventListener('scroll', handleScroll);
+    });
+
+    onUnmounted(() => {
+        window.removeEventListener('scroll', handleScroll);
+    });
+</script>
+
 <template>
     <header :class="{ 'header': true, 'header--sticky': sticky }">
-      <div class="container">
-        <nav class="header__nav">
-          <router-link class="transparent-link name" to="/">watchreel</router-link>
-          <div class="header__nav__sub">
-                <router-link class="transparent-link" to="/watchlist">
-                    Watch List
-                    <span class="watchlist-count" v-if="$store.state.watchList.length < 99">{{ $store.state.watchList.length }}</span>
-                    <span class="watchlist-emoji" v-else>😎</span>
-                </router-link>
-          </div>
-        </nav>
-        <Search />
-      </div>
+        <div class="container">
+            <nav class="header__nav">
+                <NuxtLink class="transparent-link name" to="/">watchreel</NuxtLink>
+                <div class="header__nav__sub">
+                    <NuxtLink class="transparent-link" to="/reel">
+                        My Reel
+                        <ClientOnly>
+                            <span class="watchlist-count" v-if="moviesStore.reel.length < 99">{{ moviesStore.reel.length }}</span>
+                            <span class="watchlist-emoji" v-else>😎</span>
+                        </ClientOnly>
+                    </NuxtLink>
+                </div>
+            </nav>
+            <Search />
+        </div>
     </header>
 </template>
-
-<script>
-import Search from '@/components/Search';
-
-export default {
-    name: 'Header',
-    components: {
-        Search,
-    },
-    data() {
-        return {
-            scrollTop: document.scrollingElement.scrollTop,
-            sticky: false,
-        }
-    },
-    methods: {
-        handleScroll() {
-            let newScrollTop = document.scrollingElement.scrollTop;
-            this.sticky = newScrollTop < this.scrollTop && newScrollTop > 0;
-            this.scrollTop = newScrollTop;
-        },
-    },
-    created() {
-        window.addEventListener('scroll', this.handleScroll);
-    },
-}
-</script>
 
 <style scoped>
     .header {

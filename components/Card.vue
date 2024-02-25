@@ -1,11 +1,30 @@
+<script setup lang="ts">
+    const moviesStore = useMoviesStore();
+
+    const props = defineProps(['movie', 'header']);
+
+    const genres = computed(() => {
+        if (props.movie.genres) {
+            return props.movie.genres;
+        }
+
+        return props.movie.genre_ids.map(id => moviesStore.getGenre(id));
+    });
+
+    const stars = computed(() => {
+        const rating = props.movie.vote_average / 2;
+        return (Math.round(rating * 10) / 10).toFixed(1);
+    });
+</script>
+
 <template>
     <article :class="{ card: true, 'card--link': !header, 'card--header': !!header }">
         <img class="card__image" :src="imageUrl('backdrop', header ? 'l' : 'm', movie.backdrop_path)" :alt="'Backdrop image for movie ' + movie.title">
         <div class="card__content">
             <component :is="header ? 'h1' : 'h3'" class="card__title">
-                <router-link class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="!header">
+                <NuxtLink class="block-link transparent-link" :to="'/movie/' + movie.id" v-if="!header">
                     {{ movie.title }} <span v-if="movie.release_date" class="year">({{ movie.release_date.split('-')[0] }})</span>
-                </router-link>
+                </NuxtLink>
                 <template v-else>
                     {{ movie.title }} <span v-if="movie.release_date" class="year">({{ movie.release_date.split('-')[0] }})</span>
                 </template>
@@ -19,33 +38,6 @@
         </div>
     </article>
 </template>
-
-<script>
-import { imageUrl } from '@/components/TMDB';
-
-export default {
-    name: 'Card',
-
-    props: ['movie', 'header'],
-
-    computed: {
-        genres() {
-            if (this.movie.genres)
-                return this.movie.genres;
-
-            return this.movie.genre_ids.map(id => this.$store.getters.getGenre(id));
-        },
-
-        stars() {
-            return this.movie.vote_average / 2;
-        },
-    },
-
-    methods: {
-        imageUrl,
-    },
-}
-</script>
 
 <style scoped>
     .card {

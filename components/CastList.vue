@@ -1,3 +1,13 @@
+<script setup lang="ts">
+    defineProps({
+        cast: Array,
+        headingLevel: {
+            type: String,
+            default: 'h2',
+        },
+    });
+</script>
+
 <template>
     <section>
         <component :is="headingLevel" class="cast-list__title">Top billed cast</component>
@@ -10,26 +20,6 @@
         </ul>
     </section>
 </template>
-
-<script>
-import { imageUrl } from '@/components/TMDB';
-export default {
-    name: 'CastList',
-    props: {
-        cast: {
-            type: Array,
-        },
-        
-        headingLevel: {
-            type: String,
-            default: 'h2',
-        },
-    },
-    methods: {
-        imageUrl,
-    }
-}
-</script>
 
 <style scoped>
     section {
